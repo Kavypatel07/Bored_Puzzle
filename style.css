@@ -1,0 +1,413 @@
+/* ══════════════════════════════════════════════════
+   🔧 CONFIGURABLE DOT GRID CHAR — change one var:
+      --dot-char: '·';   ← swap to '•' '+' '*' '×' '–' '#' '✦' etc.
+   ══════════════════════════════════════════════════ */
+:root {
+  --dot-char: '·';
+  --dot-size: 20px;
+  --dot-color: rgba(0,0,0,0.30);
+  --dot-font-size: 13px;
+
+  --yellow: #FFD000;
+  --yellow-dk: #e6bb00;
+  --navy: #111827;
+  --black: #0f0f0f;
+  --white: #ffffff;
+  --bg: #eeede6;
+  --card-bg: #ffffff;
+  --card-border: #0f0f0f;
+  --card-shadow: 6px 6px 0 #0f0f0f;
+  --card-shadow-h: 10px 10px 0 #0f0f0f;
+  --card-r: 14px;
+  --red: #dc2626;
+  --blue: #1e3a8a;
+  --purple: #7c3aed;
+  --muted: #6b7280;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Base ── */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--black);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Dot-grid canvas (fixed, behind everything) ── */
+#dot-cv {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Content layer (above canvas) ── */
+.layer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ════════════════════════════════════════
+   TICKER
+   ════════════════════════════════════════ */
+.ticker-wrap {
+  background: var(--yellow);
+  border-bottom: 3px solid var(--yellow-dk);
+  overflow: hidden;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  user-select: none;
+}
+
+/* Pause scroll on hover — pure CSS, no JS needed */
+.ticker-wrap:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker 90s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--black);
+  padding: 0 22px;
+  white-space: nowrap;
+}
+
+.ticker-item::before {
+  content: '★';
+  font-size: 10px;
+  opacity: .7;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   PAGE WRAPPER
+   ════════════════════════════════════════ */
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+}
+
+/* ════════════════════════════════════════
+   GAME CARD  (bored.com hard-shadow style)
+   ════════════════════════════════════════ */
+.game-card {
+  background: var(--card-bg);
+  border: 2.5px solid var(--card-border);
+  border-radius: var(--card-r);
+  box-shadow: var(--card-shadow);
+  transition: transform .18s ease, box-shadow .18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Lift + deepen shadow on hover — matches bored.com interaction */
+.game-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--card-shadow-h);
+}
+
+/* ── Card header strip ── */
+.card-head {
+  background: var(--navy);
+  padding: 16px 22px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.head-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: .1em;
+  color: var(--yellow);
+}
+
+.head-sub {
+  font-size: 11.5px;
+  color: rgba(255,255,255,.55);
+  margin-top: 3px;
+}
+
+.head-badge {
+  background: var(--yellow);
+  color: var(--black);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 4px 13px;
+  border-radius: 99px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Stats strip ── */
+.stats-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 22px;
+  background: #f4f3ec;
+  border-bottom: 1.5px solid #ddddd5;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-v {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.stat-push {
+  flex: 1;
+}
+
+/* ════════════════════════════════════════
+   PUZZLE AREA
+   ════════════════════════════════════════ */
+.puzzle-area {
+  padding: 28px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── 3×3 board grid ── */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: min(268px, 78vw);
+}
+
+/* ── Number tiles ── */
+.tile {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 7vw, 42px);
+  letter-spacing: .04em;
+  color: var(--navy);
+  background: var(--white);
+  border: 2.5px solid #1a2744;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 #1a2744;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+
+.tile:hover:not(.empty) {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #1a2744;
+  background: #edf0fb;
+}
+
+.tile.empty {
+  background: transparent;
+  border: 2px dashed #b8bdd4;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Pop animation on tile move */
+.tile.pop {
+  animation: pop .18s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(.87); }
+  65%  { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+
+/* ════════════════════════════════════════
+   CONTROL BUTTONS
+   ════════════════════════════════════════ */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 2.5px solid;
+  cursor: pointer;
+  background: transparent;
+  transition: background .13s, color .13s, transform .1s, box-shadow .13s;
+  box-shadow: 3px 3px 0 currentColor;
+}
+
+.btn:hover  { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 currentColor; }
+.btn:active { transform: translate(1px,1px);   box-shadow: 1px 1px 0 currentColor; }
+
+/* Red — Reset */
+.btn-r             { color: var(--red);    border-color: var(--red); }
+.btn-r:hover       { background: var(--red);    color: #fff; }
+
+/* Blue — Timer / Moves (display only) */
+.btn-b             { color: var(--blue);   border-color: var(--blue); min-width: 96px; text-align: center; }
+
+/* Purple — Hint */
+.btn-p             { color: var(--purple); border-color: var(--purple); }
+.btn-p:hover       { background: var(--purple); color: #fff; }
+
+/* Green — New game */
+.btn-g             { color: #16a34a;       border-color: #16a34a; }
+.btn-g:hover       { background: #16a34a;  color: #fff; }
+
+/* ════════════════════════════════════════
+   HINT BOX
+   ════════════════════════════════════════ */
+.hint-box {
+  display: none;
+  background: #eff3ff;
+  border: 2px solid #c8d0ef;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-size: 13px;
+  color: var(--navy);
+  max-width: 300px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.hint-box.show {
+  display: block;
+}
+
+/* ── Card footer note ── */
+.card-foot {
+  padding: 0 22px 18px;
+  font-size: 11.5px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.65;
+}
+
+/* ════════════════════════════════════════
+   WIN OVERLAY
+   ════════════════════════════════════════ */
+.win-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(17,24,39,.9);
+  border-radius: var(--card-r);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 30;
+}
+
+.win-overlay.show { display: flex; }
+
+.win-emoji { font-size: 50px; }
+
+.win-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  letter-spacing: .1em;
+  color: var(--yellow);
+}
+
+.win-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.75);
+}
+
+.btn-again {
+  margin-top: 8px;
+  background: var(--yellow);
+  color: var(--black);
+  border: 2.5px solid var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .06em;
+  padding: 10px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--black);
+  transition: transform .12s, box-shadow .12s;
+  text-transform: uppercase;
+}
+
+.btn-again:hover {
+  transform: translate(-1px,-1px);
+  box-shadow: 5px 5px 0 var(--black);
+}
+
+/* ── Ticker status text ── */
+.ticker-status {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 10px;
+  opacity: .7;
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .page {
+    padding: 24px 12px 40px;
+  }
+  .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+  }
+}

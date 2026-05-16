@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BORED — Never Be Bored Again</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dot-grid canvas (drawn by JS, fixed behind everything) -->
+  <canvas id="dot-cv"></canvas>
+
+  <div class="layer">
+
+    <!-- ══ TICKER ══════════════════════════════════════════ -->
+    <div class="ticker-wrap" title="Hover to pause">
+      <div class="ticker-track" id="tickerTrack">
+        <span class="ticker-item">Loading fun facts &amp; jokes…</span>
+      </div>
+    </div>
+
+    <!-- ══ PAGE ════════════════════════════════════════════ -->
+    <div class="page">
+
+      <div class="game-card">
+
+        <!-- Win overlay (shown on puzzle completion) -->
+        <div class="win-overlay" id="winOverlay">
+          <div class="win-emoji">🎉</div>
+          <div class="win-title">Puzzle Solved!</div>
+          <div class="win-sub" id="winSub"></div>
+          <button class="btn-again" onclick="resetTimer()">Play Again</button>
+        </div>
+
+        <!-- Card header -->
+        <div class="card-head">
+          <div>
+            <div class="head-title">8 Puzzle — Sliding Tiles</div>
+            <div class="head-sub">Slide tiles to arrange 1–8 in order · empty space bottom-right</div>
+          </div>
+          <div class="head-badge">Mini Game</div>
+        </div>
+
+        <!-- Stats strip -->
+        <div class="stats-strip">
+          <div class="stat">
+            Solved
+            <span class="stat-v" id="solvedVal" style="margin-left:4px">0</span>
+          </div>
+          <div class="stat-push"></div>
+          <div class="stat">
+            Best Time
+            <span class="stat-v" id="bestTimeVal" style="margin-left:4px">—</span>
+          </div>
+          <div class="stat">
+            Best Moves
+            <span class="stat-v" id="bestMovesVal" style="margin-left:4px">—</span>
+          </div>
+        </div>
+
+        <!-- Puzzle board + controls -->
+        <div class="puzzle-area">
+
+          <!-- 3×3 tile grid (populated by JS) -->
+          <div class="board" id="board"></div>
+
+          <!-- Controls -->
+          <div class="controls">
+            <button class="btn btn-r" onclick="resetTimer()">↺ Reset</button>
+            <button class="btn btn-g" onclick="nextGame()">＋ New</button>
+            <button class="btn btn-b" id="timerBtn">⏱ 0s</button>
+            <button class="btn btn-b" id="movesBtn">🎯 0 Moves</button>
+            <button class="btn btn-p" onclick="showHint()">💡 Hint</button>
+          </div>
+
+          <!-- Hint message (shown/hidden by JS) -->
+          <div class="hint-box" id="hintBox"></div>
+
+        </div><!-- /puzzle-area -->
+
+        <!-- Footer instructions -->
+        <div class="card-foot">
+          Click any tile adjacent to the empty space to slide it.<br>
+          Arrange tiles so numbers 1–8 read left-to-right, top-to-bottom.
+        </div>
+
+      </div><!-- /game-card -->
+
+      <!-- Ticker pool status (tiny text below card) -->
+      <div class="ticker-status" id="tickerStatus"></div>
+
+    </div><!-- /page -->
+
+  </div><!-- /layer -->
+
+  <!--
+    config.js is generated from your .env file — it is NEVER committed to git.
+    Run:  node setup.js          (one-time setup)
+    See README.md → "API Setup" for full instructions.
+    If config.js is absent the app still works using the built-in seed pool.
+  -->
+  <script src="config.js" onerror="window.ENV={}"></script>
+
+  <!-- Main script (deferred so DOM is ready) -->
+  <script src="script.js"></script>
+
+</body>
+</html>
