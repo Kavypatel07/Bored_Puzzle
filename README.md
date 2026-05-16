@@ -8,6 +8,22 @@
 
 ## 📸 Project Demo
 
+<img width="1920" height="1020" alt="BORED — Never Be Bored Again - Google Chrome 16-05-2026 14_41_23" src="https://github.com/user-attachments/assets/b1dabe82-9063-4768-b1c6-6a51b5efdc4d" />
+
+---
+
+### perview of puzzle Game : 
+<img width="1488" height="808" alt="perview of puzzle Game" src="https://github.com/user-attachments/assets/901fcc49-b5f8-46c9-b184-47b21352e337" />
+
+### puzzle solved overlayer : 
+<img width="1488" height="808" alt="puzzle solved overlayer" src="https://github.com/user-attachments/assets/908eff7c-8614-40ec-962c-5b853318e6d5" />
+
+### overload pool by fetching API per second :
+<img width="1488" height="808" alt="overload pool by fetching API per second" src="https://github.com/user-attachments/assets/c9da4c32-0616-4035-ad0e-584ac7a4d75a" />
+
+---
+---
+
 Open `index.html` directly in any modern browser — **no server, no install, no build step.**
 
 **Live features at a glance:**
@@ -261,11 +277,6 @@ No problem. The app detects a missing key and silently uses the built-in seed po
 | [sliding.toys](https://sliding.toys/mystic-square/8-puzzle/daily/) | 8-puzzle rules, daily concept, Reset/Time/Moves layout |
 | [API Ninjas](https://api-ninjas.com/) | Live content for the ticker |
 
----
-
-## 📄 License
-
-MIT — free to use, modify, and distribute.
 
 ---
 
